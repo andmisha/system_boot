@@ -25,6 +25,7 @@ mount -o remount,rw /sysroot
 12. Выполнил создание файла /.autorelable для переназначения флагов безопаности SELinux (необходимо только при ключенном SELinux)
 
 ![](https://github.com/andmisha/system_boot/blob/main/Screenshot_19.png)
+
 13. Выполнил перезагрузку ОС
 14. Авторизация прошла успешно
 
