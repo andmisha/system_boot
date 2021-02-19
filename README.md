@@ -116,8 +116,8 @@ Skipping udev rule: 91-permissions.rules
 ---
 22. Для добавления модуля в initrd необходимо создать директорию в /usr/lib/dracut/modules.d/01test
 23. Скопировать в директорию 2 скрипта:
-### https://gist.github.com/lalbrekht/e51b2580b47bb5a150bd1a002f16ae85 - установка модуля и вызов скрипта
-### https://gist.github.com/lalbrekht/ac45d7a6c6856baea348e64fac43faf0 - сам скрипт
+- https://gist.github.com/lalbrekht/e51b2580b47bb5a150bd1a002f16ae85 - установка модуля и вызов скрипта
+- https://gist.github.com/lalbrekht/ac45d7a6c6856baea348e64fac43faf0 - сам скрипт
 24. Пересобрал образ initrd
 ```
 [root@lvm 01test]# mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
