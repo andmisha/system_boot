@@ -105,3 +105,10 @@ Skipping udev rule: 91-permissions.rules
 *** Creating image file done ***
 *** Creating initramfs image file '/boot/initramfs-3.10.0-862.2.3.el7.x86_64.img' done ***
 ```
+21. Выполнил перезагрузку ОС и проверил командой vgs результат
+```
+[root@lvm ~]# vgs
+  VG       #PV #LV #SN Attr   VSize   VFree
+  OtusRoot   1   2   0 wz--n- <38.97g    0
+```
+22. 
