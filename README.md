@@ -1,4 +1,4 @@
-# system_boot
+# system_boot by andmisha
 
 1. Для домашней работы взял ВМ из работы по LVM
 2. Проверил способ 1 - добавил init=/bin/sh в конец строки linux16 и нажал Ctrl+X для загрузки системы
@@ -111,4 +111,76 @@ Skipping udev rule: 91-permissions.rules
   VG       #PV #LV #SN Attr   VSize   VFree
   OtusRoot   1   2   0 wz--n- <38.97g    0
 ```
-22. 
+---
+22. Для добавления модуля в initrd необходимо создать директорию в /usr/lib/dracut/modules.d/01test
+23. Скопировать в директорию 2 скрипта:
+### https://gist.github.com/lalbrekht/e51b2580b47bb5a150bd1a002f16ae85 - установка модуля и вызов скрипта
+### https://gist.github.com/lalbrekht/ac45d7a6c6856baea348e64fac43faf0 - сам скрипт
+24. Пересобрал образ initrd
+```
+[root@lvm 01test]# mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+Executing: /sbin/dracut -f -v /boot/initramfs-3.10.0-862.2.3.el7.x86_64.img 3.10.0-862.2.3.el7.x86_64
+dracut module 'busybox' will not be installed, because command 'busybox' could not be found!
+dracut module 'crypt' will not be installed, because command 'cryptsetup' could not be found!
+dracut module 'dmraid' will not be installed, because command 'dmraid' could not be found!
+dracut module 'dmsquash-live-ntfs' will not be installed, because command 'ntfs-3g' could not be found!
+dracut module 'multipath' will not be installed, because command 'multipath' could not be found!
+dracut module 'busybox' will not be installed, because command 'busybox' could not be found!
+dracut module 'crypt' will not be installed, because command 'cryptsetup' could not be found!
+dracut module 'dmraid' will not be installed, because command 'dmraid' could not be found!
+dracut module 'dmsquash-live-ntfs' will not be installed, because command 'ntfs-3g' could not be found!
+dracut module 'multipath' will not be installed, because command 'multipath' could not be found!
+*** Including module: bash ***
+*** Including module: test ***
+*** Including module: nss-softokn ***
+*** Including module: i18n ***
+*** Including module: drm ***
+*** Including module: plymouth ***
+*** Including module: dm ***
+Skipping udev rule: 64-device-mapper.rules
+Skipping udev rule: 60-persistent-storage-dm.rules
+Skipping udev rule: 55-dm.rules
+*** Including module: kernel-modules ***
+Omitting driver floppy
+*** Including module: lvm ***
+Skipping udev rule: 64-device-mapper.rules
+Skipping udev rule: 56-lvm.rules
+Skipping udev rule: 60-persistent-storage-lvm.rules
+*** Including module: qemu ***
+*** Including module: resume ***
+*** Including module: rootfs-block ***
+*** Including module: terminfo ***
+*** Including module: udev-rules ***
+Skipping udev rule: 40-redhat-cpu-hotplug.rules
+Skipping udev rule: 91-permissions.rules
+*** Including module: biosdevname ***
+*** Including module: systemd ***
+*** Including module: usrmount ***
+*** Including module: base ***
+*** Including module: fs-lib ***
+*** Including module: shutdown ***
+*** Including modules done ***
+*** Installing kernel module dependencies and firmware ***
+*** Installing kernel module dependencies and firmware done ***
+*** Resolving executable dependencies ***
+*** Resolving executable dependencies done***
+*** Hardlinking files ***
+*** Hardlinking files done ***
+*** Stripping files ***
+*** Stripping files done ***
+*** Generating early-microcode cpio image contents ***
+*** No early-microcode cpio image needed ***
+*** Store current command line parameters ***
+*** Creating image file ***
+*** Creating image file done ***
+*** Creating initramfs image file '/boot/initramfs-3.10.0-862.2.3.el7.x86_64.img' done ***
+```
+25. Проверил, что созданный ранее модуль test загружен в образ
+```
+[root@lvm 01test]# lsinitrd -m /boot/initramfs-$(uname -r).img | grep test
+test
+```
+26. Перезагрузил ОС, в grub при загрузке убрал опции rhgb quet и нажал Ctrl+X для загрузки
+27. Дождался появления пингвинчика
+![](https://github.com/andmisha/system_boot/blob/main/Screenshot_21.png)
+
